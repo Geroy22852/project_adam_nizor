@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportShop — интернет-магазин спортивных товаров</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="#" class="logo">
+                <span class="logo__icon">🏋️</span>
+                <span class="logo__text"> {{ title }} </span>
+            </a>
+
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li><a href="#catalog" class="nav__link">Каталог</a></li>
+                    <li><a href="#catalog" class="nav__link">Обувь</a></li>
+                    <li><a href="#catalog" class="nav__link">Одежда</a></li>
+                    <li><a href="#catalog" class="nav__link">Тренажёры</a></li>
+                    <li><a href="#catalog" class="nav__link">Питание</a></li>
+                </ul>
+            </nav>
+
+            <div class="header__actions">
+                <button class="icon-btn" aria-label="Поиск">🔍</button>
+                <a href="/basket">
+                    <button class="icon-btn" aria-label="Корзина">
+
+                    🛒 <span class="cart-count">3</span>
+                </button>
+                  <a href="/login" class="icon-btn profile-icon" id="profileIcon" aria-label="Профиль" title="Профиль">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+        </svg>
+    </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Баннер -->
+    <section class="hero">
+        <div class="container hero__inner">
+            <div class="hero__content">
+                <h1 class="hero__title">Спорт начинается здесь</h1>
+                <p class="hero__subtitle">
+                    Тысячи товаров для фитнеса, бега, единоборств и активного отдыха.
+                    Скидки до 40% на первую покупку.
+                </p>
+                <a href="#catalog" class="btn btn--primary">Перейти в каталог</a>
+            </div>
+            <div class="hero__image">🏃‍♂️</div>
+        </div>
+    </section>
+
+    <!-- Преимущества -->
+    <section class="features">
+        <div class="container features__grid">
+            <div class="feature">
+                <div class="feature__icon">🚚</div>
+                <h3 class="feature__title">Быстрая доставка</h3>
+                <p class="feature__text">По всей стране за 1–3 дня</p>
+            </div>
+            <div class="feature">
+                <div class="feature__icon">✅</div>
+                <h3 class="feature__title">Только оригинал</h3>
+                <p class="feature__text">Официальные бренды и гарантия</p>
+            </div>
+            <div class="feature">
+                <div class="feature__icon">↩️</div>
+                <h3 class="feature__title">Возврат 30 дней</h3>
+                <p class="feature__text">Без лишних вопросов</p>
+            </div>
+            <div class="feature">
+                <div class="feature__icon">💬</div>
+                <h3 class="feature__title">Поддержка 24/7</h3>
+                <p class="feature__text">Поможем с выбором</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Каталог -->
+    <section class="catalog" id="catalog">
+        <div class="container">
+            <h2 class="section-title">Популярные товары</h2>
+
+            <div class="catalog__grid">
+
+                <article class="product">
+                    <a href="/kross" ><div  class="product__image">👟</div>
+                    <span class="product__badge">Хит</span>
+                    <h3 class="product__title">Кроссовки для бега RunFlex</h3>
+                    <p class="product__category">Обувь</p>
+                    <div class="product__footer">
+                        <span class="product__price">7 990 ₽</span>
+                        <button class="btn btn--small">В корзину</button>
+                    </div></a>
+                </article>
+
+                <article class="product">
+                    <div class="product__image">🏋️</div>
+                    <span class="product__badge product__badge--sale">-20%</span>
+                    <h3 class="product__title">Гантели разборные 2×10 кг</h3>
+                    <p class="product__category">Тренажёры</p>
+                    <div class="product__footer">
+                        <span class="product__price">5 490 ₽</span>
+                        <button class="btn btn--small">В корзину</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <div class="product__image">🧘</div>
+                    <h3 class="product__title">Коврик для йоги EcoMat</h3>
+                    <p class="product__category">Фитнес</p>
+                    <div class="product__footer">
+                        <span class="product__price">2 190 ₽</span>
+                        <button class="btn btn--small">В корзину</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <div class="product__image">🥊</div>
+                    <h3 class="product__title">Перчатки боксёрские Pro</h3>
+                    <p class="product__category">Единоборства</p>
+                    <div class="product__footer">
+                        <span class="product__price">3 750 ₽</span>
+                        <button class="btn btn--small">В корзину</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <div class="product__image">🚴</div>
+                    <span class="product__badge">Новинка</span>
+                    <h3 class="product__title">Велотренажёр HomeCardio X</h3>
+                    <p class="product__category">Тренажёры</p>
+                    <div class="product__footer">
+                        <span class="product__price">24 900 ₽</span>
+                        <button class="btn btn--small">В корзину</button>
+                    </div>
+                </article>
+
+                <article class="product">
+                    <div class="product__image">🥤</div>
+                    <h3 class="product__title">Протеиновый коктейль Whey 900 г</h3>
+                    <p class="product__category">Питание</p>
+                    <div class="product__footer">
+                        <span class="product__price">1 890 ₽</span>
+                        <button class="btn btn--small">В корзину</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Подписка -->
+    <section class="subscribe">
+        <div class="container subscribe__inner">
+            <h2 class="subscribe__title">Скидка 10% на первый заказ</h2>
+            <p class="subscribe__text">Подпишитесь на рассылку и получайте лучшие предложения первыми.</p>
+            <form class="subscribe__form">
+                <input type="email" class="subscribe__input" placeholder="Ваш e-mail" required>
+                <button type="submit" class="btn btn--primary">Подписаться</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__col">
+                <h4 class="footer__title">SportShop</h4>
+                <p class="footer__text">Всё для спорта и активной жизни с 2015 года.</p>
+            </div>
+            <div class="footer__col">
+                <h4 class="footer__title">Магазин</h4>
+                <ul class="footer__list">
+                    <li><a href="#catalog">Каталог</a></li>
+                    <li><a href="#">Доставка</a></li>
+                    <li><a href="#">Оплата</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4 class="footer__title">Компания</h4>
+                <ul class="footer__list">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4 class="footer__title">Контакты</h4>
+                <p class="footer__text">8 800 000-00-00</p>
+                <p class="footer__text">info@sportshop.ru</p>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <p>© 2025 SportShop. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const icon = document.getElementById("profileIcon");
+    if (!icon) return;
+
+
+    fetch("/api/me", { credentials: "include" })
+        .then(res => {
+            if (res.ok) icon.classList.add("logged-in");
+        })
+        .catch(() => {});
+
+
+    icon.addEventListener("click", async (e) => {
+        e.preventDefault();
+        try {
+            const res = await fetch("/api/me", { credentials: "include" });
+            window.location.href = res.ok ? "/profile" : "/login";
+        } catch {
+            window.location.href = "/login";
+        }
+    });
+});
+</script>
+</body>
+</html>

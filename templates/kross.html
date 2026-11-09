@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кроссовки для бега RunFlex — SportShop</title>
+    <link rel="stylesheet" href="/static/css/kross.css">
+    <style>
+        /* ===== Хлебные крошки ===== */
+        .breadcrumbs {
+            padding: 24px 0 0;
+            font-size: 14px;
+            color: var(--color-muted);
+        }
+
+        .breadcrumbs a {
+            color: var(--color-muted);
+            transition: color 0.2s;
+        }
+
+        .breadcrumbs a:hover {
+            color: var(--color-primary);
+        }
+
+        .breadcrumbs span {
+            margin: 0 8px;
+        }
+
+        /* ===== Карточка товара ===== */
+        .product-page {
+            padding: 32px 0 60px;
+        }
+
+        .product-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+            background: var(--color-white);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        /* Галерея */
+        .gallery__main {
+            font-size: 180px;
+            line-height: 1;
+            text-align: center;
+            padding: 40px 0;
+            background: var(--color-bg);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .gallery__thumbs {
+            display: flex;
+            gap: 12px;
+        }
+
+        .gallery__thumb {
+            flex: 1;
+            font-size: 40px;
+            text-align: center;
+            padding: 16px 0;
+            background: var(--color-bg);
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .gallery__thumb:hover,
+        .gallery__thumb--active {
+            border-color: var(--color-primary);
+        }
+
+        /* Информация */
+        .product-info__badge {
+            display: inline-block;
+            background: var(--color-dark);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .product-info__title {
+            font-size: 32px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .product-info__category {
+            font-size: 14px;
+            color: var(--color-muted);
+            margin-bottom: 20px;
+        }
+
+        .product-info__rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .product-info__rating .stars {
+            color: #ffb400;
+            font-size: 16px;
+        }
+
+        .product-info__price {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--color-dark);
+            margin-bottom: 6px;
+        }
+
+        .product-info__old-price {
+            font-size: 18px;
+            color: var(--color-muted);
+            text-decoration: line-through;
+            margin-left: 12px;
+            font-weight: 500;
+        }
+
+        .product-info__stock {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #2e7d32;
+            background: #e8f5e9;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin: 16px 0 24px;
+        }
+
+        /* Размеры */
+        .sizes {
+            margin-bottom: 24px;
+        }
+
+        .sizes__label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .sizes__list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .size-btn {
+            min-width: 48px;
+            padding: 10px 12px;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-btn:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        .size-btn--active {
+            background: var(--color-dark);
+            border-color: var(--color-dark);
+            color: #fff;
+        }
+
+        .size-btn--disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        /* Действия */
+        .product-info__actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .product-info__actions .btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn--outline {
+            background: var(--color-white);
+            color: var(--color-dark);
+            border: 2px solid var(--color-border);
+        }
+
+        .btn--outline:hover {
+            background: var(--color-bg);
+            border-color: var(--color-dark);
+        }
+
+        /* Краткие преимущества */
+        .product-info__perks {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-top: 24px;
+            border-top: 1px solid var(--color-border);
+        }
+
+        .perk {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--color-text);
+        }
+
+        .perk__icon {
+            font-size: 20px;
+        }
+
+        /* ===== Характеристики ===== */
+        .specs {
+            margin-top: 48px;
+            background: var(--color-white);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .specs__title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .specs__table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs__table tr {
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .specs__table tr:last-child {
+            border-bottom: none;
+        }
+
+        .specs__table td {
+            padding: 14px 0;
+            font-size: 15px;
+            vertical-align: top;
+        }
+
+        .specs__table td:first-child {
+            color: var(--color-muted);
+            width: 40%;
+        }
+
+        .specs__table td:last-child {
+            font-weight: 600;
+            color: var(--color-dark);
+        }
+
+        /* ===== Описание ===== */
+        .description {
+            margin-top: 32px;
+            background: var(--color-white);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow);
+        }
+
+        .description__title {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .description p {
+            font-size: 15px;
+            color: var(--color-text);
+            margin-bottom: 14px;
+            line-height: 1.7;
+        }
+
+        .description ul {
+            list-style: disc;
+            padding-left: 22px;
+            margin-top: 10px;
+        }
+
+        .description li {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        /* ===== Адаптивность ===== */
+        @media (max-width: 992px) {
+            .product-hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 28px;
+            }
+
+            .gallery__main {
+                font-size: 140px;
+                padding: 30px 0;
+            }
+
+            .product-info__title {
+                font-size: 26px;
+            }
+
+            .specs, .description {
+                padding: 28px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .product-info__actions {
+                flex-direction: column;
+            }
+
+            .product-info__price {
+                font-size: 28px;
+            }
+
+            .gallery__main {
+                font-size: 100px;
+            }
+
+            .specs__table td:first-child {
+                width: 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="header">
+        <div class="container header__inner">
+            <a href="#" class="logo">
+                <span class="logo__icon">🏋️</span>
+                <span class="logo__text">{{ title }}</span>
+            </a>
+
+            <nav class="nav">
+                <ul class="nav__list">
+                    <li><a href="#catalog" class="nav__link">Каталог</a></li>
+                    <li><a href="#catalog" class="nav__link">Обувь</a></li>
+                    <li><a href="#catalog" class="nav__link">Одежда</a></li>
+                    <li><a href="#catalog" class="nav__link">Тренажёры</a></li>
+                    <li><a href="#catalog" class="nav__link">Питание</a></li>
+                </ul>
+            </nav>
+
+            <div class="header__actions">
+                <button class="icon-btn" aria-label="Поиск">🔍</button>
+                <button class="icon-btn" aria-label="Корзина">
+                    🛒 <span class="cart-count">3</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Хлебные крошки -->
+    <div class="container breadcrumbs">
+        <a href="main.html">Главная</a>
+        <span>/</span>
+        <a href="#catalog">Каталог</a>
+        <span>/</span>
+        <a href="#catalog">Обувь</a>
+        <span>/</span>
+        <span>Кроссовки для бега RunFlex</span>
+    </div>
+
+    <!-- Карточка товара -->
+    <main class="product-page">
+        <div class="container">
+
+            <div class="product-hero">
+
+                <!-- Галерея -->
+                <div class="gallery">
+                    <div class="gallery__main">👟</div>
+                    <div class="gallery__thumbs">
+                        <div class="gallery__thumb gallery__thumb--active">👟</div>
+                        <div class="gallery__thumb">🥿</div>
+                        <div class="gallery__thumb">🦶</div>
+                        <div class="gallery__thumb">📦</div>
+                    </div>
+                </div>
+
+                <!-- Информация -->
+                <div class="product-info">
+                    <span class="product-info__badge">Хит продаж</span>
+
+                    <h1 class="product-info__title">Кроссовки для бега RunFlex</h1>
+                    <p class="product-info__category">Обувь · Беговые кроссовки</p>
+
+                    <div class="product-info__rating">
+                        <span class="stars">★★★★★</span>
+                        <span>4.9 · 128 отзывов</span>
+                    </div>
+
+                    <div>
+                        <span class="product-info__price">7 990 ₽</span>
+                        <span class="product-info__old-price">9 990 ₽</span>
+                    </div>
+
+                    <span class="product-info__stock">✅ В наличии на складе</span>
+
+                    <!-- Размеры -->
+                    <div class="sizes">
+                        <div class="sizes__label">Выберите размер (EU):</div>
+                        <div class="sizes__list">
+                            <button class="size-btn">39</button>
+                            <button class="size-btn">40</button>
+                            <button class="size-btn size-btn--active">41</button>
+                            <button class="size-btn">42</button>
+                            <button class="size-btn">43</button>
+                            <button class="size-btn">44</button>
+                            <button class="size-btn size-btn--disabled">45</button>
+                        </div>
+                    </div>
+
+                    <!-- Действия -->
+                    <div class="product-info__actions">
+                        <button class="btn btn--primary">Добавить в корзину</button>
+                        <button class="btn btn--outline">♡ В избранное</button>
+                    </div>
+
+                    <!-- Преимущества -->
+                    <div class="product-info__perks">
+                        <div class="perk">
+                            <span class="perk__icon">🚚</span>
+                            <span>Доставка по всей стране за 1–3 дня</span>
+                        </div>
+                        <div class="perk">
+                            <span class="perk__icon">↩️</span>
+                            <span>Возврат и обмен в течение 30 дней</span>
+                        </div>
+                        <div class="perk">
+                            <span class="perk__icon">✅</span>
+                            <span>Официальная гарантия производителя 12 месяцев</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Характеристики -->
+            <section class="specs">
+                <h2 class="specs__title">Характеристики</h2>
+
+                <table class="specs__table">
+                    <tbody>
+                        <tr>
+                            <td>Бренд</td>
+                            <td>RunFlex</td>
+                        </tr>
+                        <tr>
+                            <td>Модель</td>
+                            <td>RunFlex Aero 2025</td>
+                        </tr>
+                        <tr>
+                            <td>Категория</td>
+                            <td>Беговые кроссовки</td>
+                        </tr>
+                        <tr>
+                            <td>Пол</td>
+                            <td>Унисекс</td>
+                        </tr>
+                        <tr>
+                            <td>Тип поверхности</td>
+                            <td>Асфальт, беговая дорожка, парк</td>
+                        </tr>
+                        <tr>
+                            <td>Тип пронации</td>
+                            <td>Нейтральная</td>
+                        </tr>
+                        <tr>
+                            <td>Вес (размер 42)</td>
+                            <td>265 г</td>
+                        </tr>
+                        <tr>
+                            <td>Перепад высот (drop)</td>
+                            <td>8 мм</td>
+                        </tr>
+                        <tr>
+                            <td>Высота подошвы</td>
+                            <td>28 мм / 20 мм</td>
+                        </tr>
+                        <tr>
+                            <td>Материал верха</td>
+                            <td>Дышащий инженерный трикотаж (mesh)</td>
+                        </tr>
+                        <tr>
+                            <td>Материал подкладки</td>
+                            <td>Текстиль с антибактериальной пропиткой</td>
+                        </tr>
+                        <tr>
+                            <td>Материал подошвы</td>
+                            <td>Пена EVA + резиновая вставка в зоне пятки</td>
+                        </tr>
+                        <tr>
+                            <td>Стелька</td>
+                            <td>Съёмная, анатомическая</td>
+                        </tr>
+                        <tr>
+                            <td>Шнуровка</td>
+                            <td>Классическая, плоские шнурки</td>
+                        </tr>
+                        <tr>
+                            <td>Защита пятки</td>
+                            <td>Жёсткий TPU-стабилизатор</td>
+                        </tr>
+                        <tr>
+                            <td>Светоотражающие элементы</td>
+                            <td>Есть (боковые и задние)</td>
+                        </tr>
+                        <tr>
+                            <td>Сезон</td>
+                            <td>Весна, лето, осень</td>
+                        </tr>
+                        <tr>
+                            <td>Цвет</td>
+                            <td>Чёрный / Оранжевый</td>
+                        </tr>
+                        <tr>
+                            <td>Страна производства</td>
+                            <td>Вьетнам</td>
+                        </tr>
+                        <tr>
+                            <td>Гарантия</td>
+                            <td>12 месяцев</td>
+                        </tr>
+                        <tr>
+                            <td>Артикул</td>
+                            <td>RF-AERO-2025-BK/OR</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Описание -->
+            <section class="description">
+                <h2 class="description__title">Описание</h2>
+                <p>
+                    Кроссовки RunFlex Aero 2025 — это лёгкая беговая модель, созданная
+                    для ежедневных тренировок и длинных дистанций. Дышащий трикотажный верх
+                    обеспечивает отличную вентиляцию, а амортизирующая пена EVA гасит ударные
+                    нагрузки при беге по асфальту и беговой дорожке.
+                </p>
+                <p>
+                    Нейтральная колодка подходит большинству бегунов, а жёсткий TPU-стабилизатор
+                    в зоне пятки надёжно фиксирует стопу и снижает риск подвернуть ногу.
+                    Светоотражающие элементы делают модель безопасной для вечерних пробежек.
+                </p>
+                <p><strong>Ключевые особенности:</strong></p>
+                <ul>
+                    <li>Вес всего 265 г (размер 42) — почти не чувствуются на ноге;</li>
+                    <li>Перепад 8 мм — оптимален для большинства бегунов;</li>
+                    <li>Съёмная анатомическая стелька с антибактериальной пропиткой;</li>
+                    <li>Резиновая вставка в зоне пятки повышает износостойкость;</li>
+                    <li>Подходят для бега на 5–21 км и повседневной носки.</li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <div class="footer__col">
+                <h4 class="footer__title">SportShop</h4>
+                <p class="footer__text">Всё для спорта и активной жизни с 2015 года.</p>
+            </div>
+            <div class="footer__col">
+                <h4 class="footer__title">Магазин</h4>
+                <ul class="footer__list">
+                    <li><a href="#catalog">Каталог</a></li>
+                    <li><a href="#">Доставка</a></li>
+                    <li><a href="#">Оплата</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4 class="footer__title">Компания</h4>
+                <ul class="footer__list">
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Контакты</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                </ul>
+            </div>
+            <div class="footer__col">
+                <h4 class="footer__title">Контакты</h4>
+                <p class="footer__text">8 800 000-00-00</p>
+                <p class="footer__text">info@sportshop.ru</p>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <div class="container">
+                <p>© 2025 SportShop. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,486 @@
+/* ===== Сброс и базовые стили ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #ff5722;
+    --color-primary-dark: #e64a19;
+    --color-dark: #1a1a1a;
+    --color-text: #333;
+    --color-muted: #777;
+    --color-bg: #f5f5f7;
+    --color-white: #fff;
+    --color-border: #e5e5e5;
+    --radius: 12px;
+    --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    --container: 1200px;
+}
+
+body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* ===== Контейнер ===== */
+.container {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== Кнопки ===== */
+.btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+    background: var(--color-primary-dark);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn--small {
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+.btn--primary {
+    background: var(--color-primary);
+}
+
+/* ===== Шапка ===== */
+.header {
+    background: var(--color-white);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--color-dark);
+}
+
+.logo__icon {
+    font-size: 26px;
+}
+
+.logo__text {
+    color: var(--color-primary);
+}
+
+.nav__list {
+    display: flex;
+    gap: 32px;
+}
+
+.nav__link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text);
+    transition: color 0.2s;
+}
+
+.nav__link:hover {
+    color: var(--color-primary);
+}
+
+.header__actions {
+    display: flex;
+    gap: 12px;
+}
+
+.icon-btn {
+    position: relative;
+    background: var(--color-bg);
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.icon-btn:hover {
+    background: #e8e8ec;
+}
+
+.cart-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: var(--color-primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== Баннер ===== */
+.hero {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    color: #fff;
+    padding: 80px 0;
+}
+
+.hero__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero__content {
+    max-width: 560px;
+}
+
+.hero__title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 20px;
+}
+
+.hero__subtitle {
+    font-size: 18px;
+    color: #bbb;
+    margin-bottom: 32px;
+}
+
+.hero__image {
+    font-size: 200px;
+    line-height: 1;
+}
+
+/* ===== Преимущества ===== */
+.features {
+    padding: 60px 0;
+}
+
+.features__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.feature {
+    background: var(--color-white);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.feature__icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.feature__title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.feature__text {
+    font-size: 14px;
+    color: var(--color-muted);
+}
+
+/* ===== Каталог ===== */
+.catalog {
+    padding: 60px 0;
+}
+
+.section-title {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.catalog__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+}
+
+.product {
+    position: relative;
+    background: var(--color-white);
+    border-radius: var(--radius);
+    padding: 24px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.product__image {
+    font-size: 80px;
+    text-align: center;
+    padding: 20px 0;
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+}
+
+.product__badge {
+    position: absolute;
+    top: 36px;
+    left: 36px;
+    background: var(--color-dark);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.product__badge--sale {
+    background: var(--color-primary);
+}
+
+.product__title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.product__category {
+    font-size: 13px;
+    color: var(--color-muted);
+    margin-bottom: 16px;
+}
+
+.product__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+}
+
+.product__price {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--color-dark);
+}
+
+/* ===== Подписка ===== */
+.subscribe {
+    background: var(--color-primary);
+    color: #fff;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.subscribe__title {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.subscribe__text {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 28px;
+}
+
+.subscribe__form {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.subscribe__input {
+    flex: 1;
+    padding: 14px 18px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 15px;
+    outline: none;
+}
+
+.subscribe__form .btn {
+    background: var(--color-dark);
+}
+
+.subscribe__form .btn:hover {
+    background: #000;
+}
+
+/* ===== Подвал ===== */
+.footer {
+    background: var(--color-dark);
+    color: #ccc;
+    padding: 60px 0 0;
+}
+
+.footer__inner {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 32px;
+    padding-bottom: 40px;
+}
+
+.footer__title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.footer__text {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.footer__list li {
+    margin-bottom: 10px;
+}
+
+.footer__list a {
+    font-size: 14px;
+    transition: color 0.2s;
+}
+.profile-icon {
+    text-decoration: none;
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.profile-icon:hover {
+    color: #667eea;
+    transform: scale(1.1);
+}
+
+.profile-icon.logged-in {
+    color: #667eea;
+}
+
+.footer__list a:hover {
+    color: var(--color-primary);
+}
+
+.footer__bottom {
+    border-top: 1px solid #333;
+    padding: 20px 0;
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+}
+
+
+@media (max-width: 992px) {
+    .features__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .catalog__grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer__inner {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .hero__title {
+        font-size: 36px;
+    }
+
+    .hero__image {
+        font-size: 140px;
+    }
+}
+
+@media (max-width: 640px) {
+    .nav {
+        display: none;
+    }
+
+    .hero__inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero__image {
+        font-size: 100px;
+    }
+
+    .features__grid,
+    .catalog__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .subscribe__form {
+        flex-direction: column;
+    }
+
+    .footer__inner {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title {
+        font-size: 26px;
+    }
+}

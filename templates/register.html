@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+
+    <style>
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ============ ОБЩИЙ ФОН ============ */
+        body {
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Градиентный фон — можешь поменять цвета под свой сайт */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        /* ============ КАРТОЧКА ============ */
+        .register-card {
+            background: #fff;
+            width: 100%;
+            max-width: 420px;
+            border-radius: 16px;
+            padding: 40px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        /* Плавное появление карточки при загрузке */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============ ЗАГОЛОВОК ============ */
+        .register-card h1 {
+            font-size: 28px;
+            color: #1a1a2e;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        /* ============ ПОЛЯ ВВОДА ============ */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            outline: none;
+            background: #f9fafb;
+        }
+
+        .form-group input:focus {
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+        }
+
+        /* Красная рамка, если поле невалидно (добавляем через JS) */
+        .form-group input.invalid {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        /* Подсказка под полем */
+        .hint {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .hint.error {
+            color: #ef4444;
+        }
+
+        /* ============ КНОПКА ============ */
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* Когда идёт отправка — затемняем кнопку */
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============ СООБЩЕНИЕ ОБ ОШИБКЕ / УСПЕХЕ ============ */
+        .alert {
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            margin-bottom: 18px;
+            display: none;   /* показываем через JS */
+        }
+
+        .alert.error {
+            background: #fef2f2;
+            color: #b91c1c;
+            border: 1px solid #fecaca;
+            display: block;
+        }
+
+        .alert.success {
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            display: block;
+        }
+
+        /* ============ ССЫЛКА НА ВХОД ============ */
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-card">
+        <h1>Создать аккаунт</h1>
+        <p class="subtitle">Заполните поля, чтобы зарегистрироваться</p>
+
+        <!-- Блок для сообщений об ошибке/успехе -->
+        <div id="alert" class="alert"></div>
+
+        <!-- ============ ФОРМА ============ -->
+        <!-- novalidate — отключаем встроенную валидацию браузера,
+             чтобы показывать свои красивые сообщения -->
+        <form id="registerForm" novalidate>
+
+            <div class="form-group">
+                <label for="username">Логин</label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Введите логин"
+                    autocomplete="username"
+                    required
+                >
+                <div class="hint">От 3 до 50 символов</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Пароль</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Введите пароль"
+                    autocomplete="new-password"
+                    required
+                >
+                <div class="hint">Минимум 6 символов</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password2">Повторите пароль</label>
+                <input
+                    type="password"
+                    id="password2"
+                    name="password2"
+                    placeholder="Повторите пароль"
+                    autocomplete="new-password"
+                    required
+                >
+                <div class="hint" id="matchHint"></div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+                Зарегистрироваться
+            </button>
+        </form>
+
+        <p class="login-link">
+            Уже есть аккаунт? <a href="/login">Войти</a>
+        </p>
+    </div>
+
+    <!-- ============ JAVASCRIPT ============ -->
+    <script>
+        const form = document.getElementById("registerForm");
+        const alertBox = document.getElementById("alert");
+        const submitBtn = document.getElementById("submitBtn");
+        const passwordInput = document.getElementById("password");
+        const password2Input = document.getElementById("password2");
+        const matchHint = document.getElementById("matchHint");
+
+        // ---- Показ сообщения (error / success) ----
+        function showAlert(message, type = "error") {
+            alertBox.textContent = message;
+            alertBox.className = `alert ${type}`;
+        }
+
+        function hideAlert() {
+            alertBox.className = "alert";
+            alertBox.textContent = "";
+        }
+
+        // ---- Проверка совпадения паролей в реальном времени ----
+        password2Input.addEventListener("input", () => {
+            if (password2Input.value && password2Input.value !== passwordInput.value) {
+                matchHint.textContent = "Пароли не совпадают";
+                matchHint.classList.add("error");
+                password2Input.classList.add("invalid");
+            } else {
+                matchHint.textContent = "";
+                matchHint.classList.remove("error");
+                password2Input.classList.remove("invalid");
+            }
+        });
+
+        // ---- Отправка формы ----
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();   // не перезагружаем страницу
+            hideAlert();
+
+            const username = form.username.value.trim();
+            const password = form.password.value;
+            const password2 = form.password2.value;
+
+            // --- Клиентская валидация ---
+            if (username.length < 3) {
+                showAlert("Логин должен содержать минимум 3 символа");
+                form.username.classList.add("invalid");
+                return;
+            }
+            form.username.classList.remove("invalid");
+
+            if (password.length < 6) {
+                showAlert("Пароль должен содержать минимум 6 символов");
+                passwordInput.classList.add("invalid");
+                return;
+            }
+            passwordInput.classList.remove("invalid");
+
+            if (password !== password2) {
+                showAlert("Пароли не совпадают");
+                password2Input.classList.add("invalid");
+                return;
+            }
+            password2Input.classList.remove("invalid");
+
+            // --- Отправка на сервер ---
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Отправка...";
+
+            try {
+                const res = await fetch("/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({ username, password }),
+                });
+
+                if (res.ok) {
+                    // Успех — показываем сообщение и через секунду уходим на логин
+                    showAlert("Аккаунт создан! Перенаправляем на вход...", "success");
+                    setTimeout(() => {
+                        window.location.href = "/login";
+                    }, 1200);
+                } else {
+                    // Сервер вернул ошибку (например, 409 — логин занят)
+                    const err = await res.json().catch(() => ({}));
+                    showAlert(err.detail || "Не удалось зарегистрироваться");
+                }
+            } catch (networkError) {
+                // Сеть недоступна / сервер упал
+                showAlert("Ошибка сети. Попробуйте позже.");
+            } finally {
+                // Возвращаем кнопку в исходное состояние
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Зарегистрироваться";
+            }
+        });
+    </script>
+
+</body>
+</html>

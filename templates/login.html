@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="/static/css/login.css">
+</head>
+
+<body>
+
+  <header class="site-header">
+    <a href="/" class="logo">Sport</a>
+    <nav class="nav">
+      <a href="/">Главная</a>
+      <a href="/kross">Кроссовки</a>
+      <a href="/login" class="active">Войти</a>
+    </nav>
+  </header>
+
+  <main class="container container-center">
+    <section class="auth-card">
+      <div class="auth-icon">
+        <svg viewBox="0 0 24 24" width="36" height="36" fill="none"
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+
+      <h1 class="auth-title">Вход в аккаунт</h1>
+      <p class="auth-subtitle">Введите логин и пароль, чтобы продолжить</p>
+
+      <form id="loginForm" class="auth-form" novalidate>
+        <div class="form-group">
+          <label for="username">Логин</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Например, adam"
+            autocomplete="username"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password">Пароль</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+            >
+            <button
+              type="button"
+              class="toggle-password"
+              aria-label="Показать пароль"
+              data-target="password"
+            >
+              👁
+            </button>
+          </div>
+        </div>
+
+        <div class="form-error" id="formError" role="alert" aria-live="polite"></div>
+
+        <button type="submit" class="btn btn-primary" id="submitBtn">
+          <span class="btn-label">Войти</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        Нет аккаунта? <a href="/register">Зарегистрироваться</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Sport. Все права защищены.</p>
+  </footer>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("loginForm");
+      if (!form) return;
+
+      const errorBox = document.getElementById("formError");
+      const submitBtn = document.getElementById("submitBtn");
+
+      function showError(msg) {
+          errorBox.textContent = msg;
+          errorBox.classList.add("visible");
+      }
+      function clearError() {
+          errorBox.textContent = "";
+          errorBox.classList.remove("visible");
+      }
+
+      document.querySelectorAll(".toggle-password").forEach(btn => {
+          btn.addEventListener("click", () => {
+              const input = document.getElementById(btn.dataset.target);
+              const isHidden = input.type === "password";
+              input.type = isHidden ? "text" : "password";
+          });
+      });
+
+      form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          clearError();
+
+          const username = form.username.value.trim();
+          const password = form.password.value;
+
+          if (!username || !password) {
+              showError("Заполните все поля");
+              return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.classList.add("loading");
+
+          try {
+              const res = await fetch("/login", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  credentials: "include",
+                  body: JSON.stringify({ username, password }),
+              });
+
+              if (res.ok) {
+                  window.location.href = "/";
+                  return;
+              }
+
+              let detail = "Неверный логин или пароль";
+              try {
+                  const data = await res.json();
+                  if (data && data.detail) detail = data.detail;
+              } catch (_) {}
+              showError(detail);
+          } catch (err) {
+              showError("Ошибка сети. Попробуйте ещё раз.");
+          } finally {
+              submitBtn.disabled = false;
+              submitBtn.classList.remove("loading");
+          }
+      });
+  });
+  </script>
+
+</body>
+</html>

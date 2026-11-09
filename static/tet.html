@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskly — Мои задачи</title>
+    <link rel="stylesheet" href="/static/tet.css">
+</head>
+<body>
+
+    <header class="header">
+        <a href="/" class="logo">
+            <div class="logo-icon">✓</div>
+            <span>taskly<span class="logo-dot">.</span></span>
+        </a>
+
+        <div class="header-right">
+            <span class="header-label">МОЙ ПЛАНИРОВЩИК</span>
+            <div class="user-avatar">Я</div>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <section class="welcome">
+            <div>
+                <p class="eyebrow">ТВОЁ ВРЕМЯ — ТВОИ ПРАВИЛА</p>
+                <h1>Все дела <span>под контролем.</span></h1>
+                <p class="welcome-text">
+                    Записывай задачи, выполняй их и двигайся к своим целям.
+                </p>
+            </div>
+
+            <div class="date-box">
+                <span class="date-icon">◷</span>
+                <div>
+                    <span class="date-title">ТВОЙ ПЛАН НА СЕГОДНЯ</span>
+                    <span class="date-value" id="currentDate">Загружаем дату...</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Всего задач</span>
+                    <div class="stat-icon purple">▤</div>
+                </div>
+                <div class="stat-number" id="totalTasks">0</div>
+                <div class="stat-description">Все твои дела в одном месте</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Осталось сделать</span>
+                    <div class="stat-icon orange">◷</div>
+                </div>
+                <div class="stat-number" id="activeTasks">0</div>
+                <div class="stat-description">Задачи, которые ждут тебя</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-top">
+                    <span>Выполнено</span>
+                    <div class="stat-icon green">✓</div>
+                </div>
+                <div class="stat-number" id="doneTasks">0</div>
+                <div class="stat-description" id="progressText">
+                    Начни с первой задачи
+                </div>
+                <div class="progress-track">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="workspace">
+
+            <aside class="sidebar">
+                <div class="sidebar-heading">РАБОЧЕЕ МЕСТО</div>
+
+                <button class="nav-item active" data-filter="all">
+                    <span class="nav-icon">▦</span>
+                    <span>Все задачи</span>
+                    <span class="nav-count" id="allCount">0</span>
+                </button>
+
+                <button class="nav-item" data-filter="active">
+                    <span class="nav-icon">◷</span>
+                    <span>В процессе</span>
+                    <span class="nav-count" id="activeCount">0</span>
+                </button>
+
+                <button class="nav-item" data-filter="done">
+                    <span class="nav-icon">✓</span>
+                    <span>Выполненные</span>
+                    <span class="nav-count" id="doneCount">0</span>
+                </button>
+
+                <div class="sidebar-tip">
+                    <div class="tip-icon">✦</div>
+                    <h3>Маленький совет</h3>
+                    <p>
+                        Большие цели начинаются с маленьких шагов.
+                        Добавь задачу и начни действовать!
+                    </p>
+                </div>
+            </aside>
+
+            <div class="task-area">
+                <div class="task-area-header">
+                    <div>
+                        <p class="eyebrow">ТВОЙ СПИСОК</p>
+                        <h2 id="listTitle">Все задачи</h2>
+                        <p class="section-description">
+                            Не откладывай на завтра то, что можно сделать сегодня.
+                        </p>
+                    </div>
+
+                    <span class="task-counter" id="visibleCount">0 задач</span>
+                </div>
+
+                <form id="taskForm" class="add-task">
+                    <div class="input-icon">＋</div>
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        placeholder="Что нужно сделать?"
+                        maxlength="200"
+                        required
+                    >
+                    <button type="submit" id="addButton">
+                        <span>＋</span> Добавить задачу
+                    </button>
+                </form>
+
+                <div class="list-toolbar">
+                    <span>ТВОИ ДЕЛА</span>
+                    <button type="button" id="refreshButton" class="refresh-button">
+                        ↻ Обновить
+                    </button>
+                </div>
+
+                <div id="taskList" class="task-list"></div>
+
+                <div id="emptyMessage" class="empty-state">
+                    <div class="empty-icon">✓</div>
+                    <h3>Здесь пока пусто</h3>
+                    <p>Добавь свою первую задачу — она появится здесь.</p>
+                </div>
+
+                <div id="errorMessage" class="error-message" hidden>
+                    Не удалось загрузить задачи. Проверь, запущен ли сервер FastAPI.
+                </div>
+
+                <div class="list-footer">
+                    <span class="footer-dot"></span>
+                    Все изменения сохраняются в базе данных
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            <span>taskly. <span class="footer-muted">Твой день. Твои задачи.</span></span>
+            <span>Сделано с заботой о твоём времени ♡</span>
+        </footer>
+
+    </main>
+
+    <script>
+        const taskForm = document.getElementById("taskForm");
+        const taskTitle = document.getElementById("taskTitle");
+        const taskList = document.getElementById("taskList");
+        const emptyMessage = document.getElementById("emptyMessage");
+        const errorMessage = document.getElementById("errorMessage");
+
+        let tasks = [];
+        let currentFilter = "all";
+
+        // Показываем сегодняшнюю дату
+        const date = new Date();
+
+        document.getElementById("currentDate").textContent =
+            date.toLocaleDateString("ru-RU", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+        // Получаем задачи из базы данных
+        async function getTasks() {
+            try {
+                const response = await fetch("/tasks");
+
+                if (!response.ok) {
+                    throw new Error("Ошибка загрузки");
+                }
+
+                tasks = await response.json();
+
+                errorMessage.hidden = true;
+                showTasks();
+                updateStats();
+            } catch (error) {
+                errorMessage.hidden = false;
+                emptyMessage.style.display = "none";
+            }
+        }
+
+        // Обновляем статистику
+        function updateStats() {
+            const completed = tasks.filter(task => Boolean(task.done)).length;
+            const active = tasks.length - completed;
+            const percent = tasks.length
+                ? Math.round(completed / tasks.length * 100)
+                : 0;
+
+            document.getElementById("totalTasks").textContent = tasks.length;
+            document.getElementById("activeTasks").textContent = active;
+            document.getElementById("doneTasks").textContent = completed;
+
+            document.getElementById("allCount").textContent = tasks.length;
+            document.getElementById("activeCount").textContent = active;
+            document.getElementById("doneCount").textContent = completed;
+
+            document.getElementById("progressBar").style.width = percent + "%";
+
+            document.getElementById("progressText").textContent =
+                tasks.length ? "Выполнено " + percent + "%" : "Начни с первой задачи";
+        }
+
+        // Показываем задачи на странице
+        function showTasks() {
+            taskList.innerHTML = "";
+
+            let filteredTasks = tasks;
+
+            if (currentFilter === "active") {
+                filteredTasks = tasks.filter(task => !Boolean(task.done));
+            } else if (currentFilter === "done") {
+                filteredTasks = tasks.filter(task => Boolean(task.done));
+            }
+
+            document.getElementById("visibleCount").textContent =
+                filteredTasks.length +
+                (filteredTasks.length === 1 ? " задача" :
+                filteredTasks.length >= 2 && filteredTasks.length <= 4 ? " задачи" : " задач");
+
+            emptyMessage.style.display =
+                filteredTasks.length === 0 ? "block" : "none";
+
+            if (currentFilter === "active") {
+                emptyMessage.querySelector("h3").textContent = "Все задачи выполнены!";
+                emptyMessage.querySelector("p").textContent = "Отличная работа. Можно немного отдохнуть.";
+            } else if (currentFilter === "done") {
+                emptyMessage.querySelector("h3").textContent = "Пока ничего не выполнено";
+                emptyMessage.querySelector("p").textContent = "Выполни задачу, и она появится здесь.";
+            } else {
+                emptyMessage.querySelector("h3").textContent = "Здесь пока пусто";
+                emptyMessage.querySelector("p").textContent = "Добавь свою первую задачу — она появится здесь.";
+            }
+
+            filteredTasks.forEach(function(task) {
+                const item = document.createElement("div");
+                item.className = "task-item";
+
+                if (Boolean(task.done)) {
+                    item.classList.add("task-done");
+                }
+
+                const checkButton = document.createElement("button");
+                checkButton.type = "button";
+                checkButton.className = "task-check";
+                checkButton.textContent = Boolean(task.done) ? "✓" : "";
+                checkButton.title = Boolean(task.done)
+                    ? "Задача выполнена"
+                    : "Отметить выполненной";
+
+                if (!Boolean(task.done)) {
+                    checkButton.addEventListener("click", function() {
+                        completeTask(task.id);
+                    });
+                }
+
+                const content = document.createElement("div");
+                content.className = "task-content";
+
+                const title = document.createElement("div");
+                title.className = "task-title";
+                title.textContent = task.title;
+
+                const description = document.createElement("div");
+                description.className = "task-subtitle";
+                description.textContent =
+                    Boolean(task.done) ? "Задача выполнена" : "Ожидает выполнения";
+
+                content.appendChild(title);
+                content.appendChild(description);
+
+                const status = document.createElement("span");
+                status.className = Boolean(task.done)
+                    ? "status status-done"
+                    : "status status-active";
+
+                status.textContent = Boolean(task.done)
+                    ? "Выполнено"
+                    : "В процессе";
+
+                const deleteButton = document.createElement("button");
+                deleteButton.type = "button";
+                deleteButton.className = "task-delete";
+                deleteButton.textContent = "Удалить";
+                deleteButton.addEventListener("click", function() {
+                    deleteTask(task.id);
+                });
+
+                const actions = document.createElement("div");
+                actions.className = "task-actions";
+                actions.appendChild(status);
+                actions.appendChild(deleteButton);
+
+                item.appendChild(checkButton);
+                item.appendChild(content);
+                item.appendChild(actions);
+
+                taskList.appendChild(item);
+            });
+        }
+
+        // Добавляем новую задачу
+        taskForm.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const title = taskTitle.value.trim();
+
+            if (!title) {
+                return;
+            }
+
+            const button = document.getElementById("addButton");
+            button.disabled = true;
+
+            try {
+                const response = await fetch("/tasks", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ title: title })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Не удалось добавить задачу");
+                }
+
+                taskTitle.value = "";
+                currentFilter = "all";
+                updateFilterButtons();
+                await getTasks();
+            } catch (error) {
+                alert("Не удалось добавить задачу. Проверь сервер.");
+            } finally {
+                button.disabled = false;
+            }
+        });
+
+        // Отмечаем задачу выполненной
+        async function completeTask(id) {
+            try {
+                const response = await fetch("/tasks/" + id, {
+                    method: "PUT"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Ошибка");
+                }
+
+                await getTasks();
+            } catch (error) {
+                alert("Не удалось изменить задачу.");
+            }
+        }
+
+        // Удаляем задачу
+        async function deleteTask(id) {
+            try {
+                const response = await fetch("/tasks/" + id, {
+                    method: "DELETE"
+                });
+
+                if (!response.ok) {
+                    throw new Error("Ошибка");
+                }
+
+                await getTasks();
+            } catch (error) {
+                alert("Не удалось удалить задачу.");
+            }
+        }
+
+        // Переключение фильтров
+        function updateFilterButtons() {
+            document.querySelectorAll(".nav-item").forEach(function(button) {
+                button.classList.toggle(
+                    "active",
+                    button.dataset.filter === currentFilter
+                );
+            });
+
+            const titles = {
+                all: "Все задачи",
+                active: "В процессе",
+                done: "Выполненные"
+            };
+
+            document.getElementById("listTitle").textContent =
+                titles[currentFilter];
+
+            showTasks();
+        }
+
+        document.querySelectorAll(".nav-item").forEach(function(button) {
+            button.addEventListener("click", function() {
+                currentFilter = button.dataset.filter;
+                updateFilterButtons();
+            });
+        });
+
+        document.getElementById("refreshButton").addEventListener("click", getTasks);
+
+        // Загружаем задачи при открытии сайта
+        getTasks();
+    </script>
+
+</body>
+</html>

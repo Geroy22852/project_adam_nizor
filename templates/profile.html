@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль — SportShop</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header__inner">
+            <a href="/" class="logo">
+                <span class="logo__icon">🏋️</span>
+                <span class="logo__text">SportShop</span>
+            </a>
+            <div class="header__actions">
+                <a href="/login" class="icon-btn profile-icon logged-in" id="profileIcon">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none"
+                         stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 0;">
+        <h1>Личный кабинет</h1>
+        <p style="margin-top: 12px;">Привет, <strong id="username">...</strong>!</p>
+        <button id="logoutBtn" class="btn btn--primary" style="margin-top: 20px;">
+            Выйти
+        </button>
+    </main>
+
+    <script>
+
+        fetch("/api/me", { credentials: "include" })
+            .then(res => {
+                if (!res.ok) {
+                    window.location.href = "/login";
+                    return;
+                }
+                return res.json();
+            })
+            .then(user => {
+                if (user) {
+                    document.getElementById("username").textContent = user.username;
+                }
+            });
+
+
+        document.getElementById("logoutBtn").addEventListener("click", async () => {
+            await fetch("/logout", { method: "POST", credentials: "include" });
+            window.location.href = "/";
+        });
+    </script>
+
+</body>
+</html>

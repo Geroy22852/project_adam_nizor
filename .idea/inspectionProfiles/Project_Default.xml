@@ -1,0 +1,46 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="blinker" />
+          <option value="charset-normalizer" />
+          <option value="et_xmlfile" />
+          <option value="Flask" />
+          <option value="greenlet" />
+          <option value="iniconfig" />
+          <option value="itsdangerous" />
+          <option value="joblib" />
+          <option value="numpy" />
+          <option value="openpyxl" />
+          <option value="packaging" />
+          <option value="Panda3D" />
+          <option value="panda3d-gltf" />
+          <option value="panda3d-simplepbr" />
+          <option value="pandas" />
+          <option value="pdf2image" />
+          <option value="pillow" />
+          <option value="pluggy" />
+          <option value="pygame" />
+          <option value="pyperclip" />
+          <option value="pyTelegramBotAPI" />
+          <option value="pytest" />
+          <option value="python-dateutil" />
+          <option value="requests" />
+          <option value="ru" />
+          <option value="scikit-learn" />
+          <option value="scipy" />
+          <option value="screeninfo" />
+          <option value="six" />
+          <option value="sswg" />
+          <option value="threadpoolctl" />
+          <option value="tzdata" />
+          <option value="ursina" />
+          <option value="Werkzeug" />
+          <option value="window" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
